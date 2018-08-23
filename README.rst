@@ -1,4 +1,4 @@
-.. image:: https://raw.githubusercontent.com/zyt312074545/kube-deploy-yaml/master/Logo.png
+.. image:: https://raw.githubusercontent.com/zyt312074545/pykube/master/Logo.png
     :align: center
 
 pykube

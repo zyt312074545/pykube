@@ -148,7 +148,7 @@ def generate_deploy():
             deploy["spec"]["template"]["spec"]["volumes"] = []
             for l in range(len(host_volume_name)):
                 deploy["spec"]["template"]["spec"]["volumes"].append(
-                    {"name": host_volume_name[l], "hostPath": {"path": host_volume_path, "type": host_volume_type}})
+                    {"name": host_volume_name[l], "hostPath": {"path": host_volume_path[l], "type": host_volume_type}})
         deploy["spec"]["template"]["spec"]["containers"].append(container)
 
         # add restart
@@ -158,7 +158,7 @@ def generate_deploy():
 
         # begin generate yaml file
         click.secho('  Begin generate yaml file ......', fg='black', bg='green')
-        yaml_file = yaml.dump_all(deploy)
+        yaml_file = yaml.dump(deploy, default_flow_style=False)
         file_name = name + "_deploy.yaml"
         with open(file_name, 'w') as file:
             file.write(yaml_file)
