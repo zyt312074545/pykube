@@ -12,7 +12,7 @@ DESCRIPTION = 'Automate Kubernetes workflow.'
 URL = 'https://github.com/zyt312074545/pykubeyaml'
 EMAIL = 'zyt312074545@gmail.com'
 AUTHOR = 'zyt'
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
