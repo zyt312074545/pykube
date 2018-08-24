@@ -4,6 +4,9 @@
 pykube
 ==============================================
 
+.. image:: https://travis-ci.org/zyt312074545/pykube.svg?branch=master
+    :target: https://travis-ci.org/zyt312074545/pykube
+
 .. image:: https://img.shields.io/badge/License-MIT-blue.svg
     :target: https://opensource.org/licenses/MIT
 

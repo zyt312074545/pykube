@@ -17,6 +17,7 @@ def cli():
               prompt='? Please enter the kind of yaml', help='The kind of yaml.')
 def generate(kind):
     """Use for generate kubernetes yaml file."""
+    click.echo('')
     click.secho('  Begin ' + kind + ' workflow ......', fg='black', bg='green')
     if kind == 'deployment':
         generate_deploy()
@@ -162,6 +163,13 @@ def generate_deploy():
         file_name = name + "_deploy.yaml"
         with open(file_name, 'w') as file:
             file.write(yaml_file)
+        click.secho('  Generate yaml file success!', fg='black', bg='green')
+        click.echo('')
+        click.secho('  You can copy yaml to remote host: ', fg='blue')
+        click.secho('    scp ' + file_name + ' remote_ip:' + file_name, fg='green')
+        click.secho('  And create deployment: ', fg='blue')
+        click.secho('    kubectl create -f ' + file_name, fg='green')
+        click.echo('')
 
 
 def generate_service():
