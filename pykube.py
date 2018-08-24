@@ -24,7 +24,7 @@ def generate(kind):
     elif kind == 'service':
         generate_service()
     else:
-        pass
+        generate_ingress()
 
 
 # validate the value is empty string
@@ -251,7 +251,59 @@ def generate_service():
 
 
 def generate_ingress():
-    pass
+    """
+    Generate ingress yaml file, need follow parameters:
+        - ingress name
+        - rules
+            - host name
+            - path
+            - service name
+            - service port
+    """
+
+    # ingress template
+    ingress = {
+        "apiVersion": "extensions/v1beta1",
+        "kind": "Ingress",
+        "metadata": {'annotations': {'kubernetes.io/ingress.class': 'nginx',
+                                     'nginx.ingress.kubernetes.io/ssl-redirect': 'false'}},
+        "spec": {"rules": []}
+    }
+
+    # add name
+    name = prompt(FormattedText([('#B58900', '? Please enter the name of ingress: ')]), validator=validator_null)
+    ingress["metadata"]["name"] = name
+
+    # add rules
+    click.secho('? Please enter the rules information: ', fg='yellow')
+    rule_host = prompt('  ? Host of rule (if more than one, use space): ', validator=validator_null)
+    rule_host_list = str2list(rule_host)
+    for rule in rule_host_list:
+        click.secho('    Begin ' + str(rule_host_list.index(rule) + 1) + 'th rule: ', fg='magenta')
+        rule_path = prompt('    ? Path of rule (if more than one, use space): ', validator=validator_null)
+        rule_path_list = str2list(rule_path)
+        paths = []
+        for path in rule_path_list:
+            click.secho('      Begin ' + str(rule_path_list.index(path) + 1) + 'th path: ', fg='magenta')
+            rule_service_name = prompt('      ? Service name: ', validator=validator_null)
+            rule_service_port = prompt('      ? Service port: ', validator=validator_digit)
+            paths.append(
+                {"path": path, "backend": {"serviceName": rule_service_name, "servicePort": int(rule_service_port)}})
+        ingress["spec"]["rules"].append({"host": rule, "http": {"paths": paths}})
+
+    # begin generate yaml file
+    click.secho('  Begin generate yaml file ......', fg='black', bg='green')
+    yaml_file = yaml.dump(ingress, default_flow_style=False)
+    file_name = name + "_ingress.yaml"
+    with open(file_name, 'w') as file:
+        file.write(yaml_file)
+    click.secho('  Generate yaml file success!', fg='black', bg='green')
+    click.echo('')
+    click.secho('  You can copy yaml to remote host: ', fg='blue')
+    click.secho('    scp ' + file_name + ' remote_ip:' + file_name, fg='green')
+    click.secho('  And create ingress: ', fg='blue')
+    click.secho('    kubectl create -f ' + file_name, fg='green')
+    click.echo('')
 
 
 if __name__ == '__main__':
