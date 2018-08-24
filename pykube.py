@@ -22,7 +22,7 @@ def generate(kind):
     if kind == 'deployment':
         generate_deploy()
     elif kind == 'service':
-        pass
+        generate_service()
     else:
         pass
 
@@ -173,7 +173,81 @@ def generate_deploy():
 
 
 def generate_service():
-    pass
+    """
+    Generate service yaml file, need follow parameters:
+        - service name
+        - service labels
+        - service port
+        - deployment labels
+    """
+
+    # service template
+    service = {
+        "apiVersion": "v1",
+        "kind": "Service",
+        "metadata": {},
+        "spec": {"ports": [], "selector": {}}
+    }
+
+    # add name
+    name = prompt(FormattedText([('#B58900', '? Please enter the name of service: ')]), validator=validator_null)
+    service["metadata"]["name"] = name
+
+    # add labels
+    service_labels = prompt('? Labels of service[yes|no]: ')
+    if str2list(service_labels)[0] == 'yes':
+        service_labels_key = prompt("  ? Name of labels: ", validator=validator_null)
+        service_labels_value = prompt('  ? Value of labels: ', validator=validator_null)
+        if len(str2list(service_labels_key)) != len(str2list(service_labels_value)):
+            click.secho("! The key's number of labels not equal to value's number, please try again.", fg='red')
+            click.Context.exit(0)
+        service["metadata"]["labels"] = dict(zip(str2list(service_labels_key), str2list(service_labels_value)))
+
+    # add ports
+    click.secho('? Please enter the port information (if more than one, use space): ', fg='yellow')
+    service_port = prompt('  ? Port of service: ', validator=validator_null)
+    container_port = prompt('  ? Port of container: ', validator=validator_null)
+    service_port_list = str2list(service_port)
+    container_port_list = str2list(container_port)
+    if len(service_port_list) != len(container_port_list):
+        click.secho("! The port's number of service not equal to container, please try again.",
+                    fg='red')
+        click.Context.exit(0)
+    # check port type
+    service_port_list_int = None
+    container_port_list_int = None
+    try:
+        service_port_list_int = list(map(int, service_port_list))
+        container_port_list_int = list(map(int, container_port_list))
+    except:
+        click.secho("! The type of port is not int, please try again.", fg='red')
+        click.Context.exit(0)
+    for i in range(len(service_port_list)):
+        service["spec"]["ports"].append({"port": service_port_list_int[i], "targetPort": container_port_list_int[i],
+                                         "protocol": "TCP", "name": "http"})
+
+    # add deployment labels
+    click.secho('? Please enter the labels information of deployment (if more than one, use space): ', fg='yellow')
+    labels_key = prompt("  ? Name of labels: ", validator=validator_null)
+    labels_value = prompt('  ? Value of labels: ', validator=validator_null)
+    if len(str2list(labels_key)) != len(str2list(labels_value)):
+        click.secho("! The key's number of labels not equal to value's number, please try again.", fg='red')
+        click.Context.exit(0)
+    service["spec"]["selector"] = dict(zip(str2list(labels_key), str2list(labels_value)))
+
+    # begin generate yaml file
+    click.secho('  Begin generate yaml file ......', fg='black', bg='green')
+    yaml_file = yaml.dump(service, default_flow_style=False)
+    file_name = name + "_service.yaml"
+    with open(file_name, 'w') as file:
+        file.write(yaml_file)
+    click.secho('  Generate yaml file success!', fg='black', bg='green')
+    click.echo('')
+    click.secho('  You can copy yaml to remote host: ', fg='blue')
+    click.secho('    scp ' + file_name + ' remote_ip:' + file_name, fg='green')
+    click.secho('  And create service: ', fg='blue')
+    click.secho('    kubectl create -f ' + file_name, fg='green')
+    click.echo('')
 
 
 def generate_ingress():
