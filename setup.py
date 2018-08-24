@@ -7,9 +7,9 @@ import os
 from setuptools import setup
 
 # Package meta-data.
-NAME = 'pykube'
+NAME = 'pykubeyaml'
 DESCRIPTION = 'Automate Kubernetes workflow.'
-URL = 'https://github.com/zyt312074545/pykube'
+URL = 'https://github.com/zyt312074545/pykubeyaml'
 EMAIL = 'zyt312074545@gmail.com'
 AUTHOR = 'zyt'
 VERSION = '0.0.1'
@@ -35,7 +35,7 @@ setup(
     author_email=EMAIL,
     url=URL,
     python_requires='>=3.6.0',
-    py_modules=['pykube'],
+    py_modules=['pykubeyaml'],
     install_requires=REQUIRED,
     include_package_data=True,
     license='MIT',
@@ -48,6 +48,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        pykube=pykube:cli
+        pykubeyaml=pykubeyaml:cli
     ''',
 )

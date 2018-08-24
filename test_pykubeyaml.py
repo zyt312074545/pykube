@@ -1,4 +1,4 @@
-from pykube import is_null, is_number, str2list
+from pykubeyaml import is_null, is_number, str2list
 
 
 def test_is_null():
