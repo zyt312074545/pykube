@@ -304,7 +304,3 @@ def generate_ingress():
     click.secho('  And create ingress: ', fg='blue')
     click.secho('    kubectl create -f ' + file_name, fg='green')
     click.echo('')
-
-
-if __name__ == '__main__':
-    cli()
