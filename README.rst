@@ -12,4 +12,39 @@ pykubeyaml
 
 ----------------------------------------------
 
-Automate Kubernetes workflow.
+**pykubeyaml** is a tool that aims to Automate Kubernetes workflow, It automatically
+creates yaml file.
+
+.. image:: https://raw.githubusercontent.com/zyt312074545/pykubeyaml/master/pykubeyaml.gif
+
+Installation
+------------
+
+    $ pip install pykubeyaml
+
+Usage
+-------
+
+    $ pykubeyaml
+    Usage: pykubeyaml [OPTIONS] COMMAND [ARGS]...
+
+      Use for kubernetes, designed to automate Kubernetes workflow.
+
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      generate  Use for generate kubernetes yaml file.
+
+Generate the yaml file:
+
+    $ pykubeyaml generate --help
+    Usage: pykubeyaml generate [OPTIONS]
+
+      Use for generate kubernetes yaml file.
+
+    Options:
+      --kind [deployment|service|ingress]
+                                      The kind of yaml.
+      --help                          Show this message and exit.
+
