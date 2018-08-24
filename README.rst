@@ -20,10 +20,14 @@ creates yaml file.
 Installation
 ------------
 
+.. code-block:: bash
+
     $ pip install pykubeyaml
 
 Usage
 -------
+
+.. code-block:: bash
 
     $ pykubeyaml
     Usage: pykubeyaml [OPTIONS] COMMAND [ARGS]...
@@ -37,6 +41,8 @@ Usage
       generate  Use for generate kubernetes yaml file.
 
 Generate the yaml file:
+
+.. code-block:: bash
 
     $ pykubeyaml generate --help
     Usage: pykubeyaml generate [OPTIONS]
