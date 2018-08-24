@@ -16,7 +16,7 @@ VERSION = '0.0.1'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'click', 'pyyaml', 'prompt-toolkit'
+    'click', 'PyYAML==3.13', 'prompt-toolkit==2.0.4'
 ]
 
 here = os.path.abspath(os.path.dirname(__file__))

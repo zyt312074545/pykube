@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pyyaml = "*"
+pyyaml = "3.13"
 click = "*"
-prompt-toolkit = "*"
+prompt-toolkit = "2.0.4"
 
 [dev-packages]
 pytest = "*"
